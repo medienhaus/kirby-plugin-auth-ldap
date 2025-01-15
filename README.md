@@ -1,26 +1,25 @@
-Datamints Kirby-Plugin Ldap
--
+## Datamints Kirby-Plugin Ldap
 
-Overview
--
+## Overview
+
 With this plugin, you can login into Kirby with your LDAP-credentials (mail + password).
 It creates a user for you at your first login and loads your full name into your Kirby-User.
 Per default, a user that logged in with ldap, is admin and has all permissions. See part "Configure"
 Language of new created user is en as default, but can be changed in backend.
 
-Install
--
+## Install
+
 to install, just put this plugin-folder into the public/site/plugins folder.
 
 You can also install it with composer or as git submodule if you want to.
 
-Configure
--
-configure your ldap-server: 
+## Configure
+
+configure your ldap-server:
 
     public/site/config/config.php
     ---
-    
+
     <?php
         return [
             ...
@@ -34,15 +33,14 @@ configure your ldap-server:
 
 if you want to change specific permissions (not just admin true/false), copy site/plugins/datamints_ldap/blueprints/users/LdapUser.yml to site/blueprints/users/LdapUser.yml and change them in that new file as described in https://getkirby.com/docs/guide/users/permissions
 
-Additional information
--
+## Additional information
+
 if you want, you can gitignore all ldap-users
 
     .gitignore
     ---
-    
-    public/site/accounts/LDAP_*
 
+    public/site/accounts/LDAP_*
 
 ## License
 
