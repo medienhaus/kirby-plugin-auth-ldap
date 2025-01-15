@@ -57,5 +57,6 @@ if you want, you can gitignore all ldap-users
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-- This Kirby-Plugin is licensed under the GPLv3 License
-- Copyright 2020 © <a href="http://www.datamints.com" target="_blank">datamints GmbH</a>
+- This Kirby-Plugin is licensed under the [GNU General Public License v3.0 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0)
+- Copyright 2020 © <a href="https://www.datamints.com/" target="_blank">datamints GmbH</a>
+- Copyright 2025 © <a href="https://medienhaus.dev/" target="_blank">medienhaus/</a>
