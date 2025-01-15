@@ -9,49 +9,32 @@
 
 ---
 
-## Datamints Kirby-Plugin Ldap
+## Kirby LDAP plugin
 
-## Overview
+The Kirby LDAP plugin enables you to log in with your LDAP credentials, authenticating against your LDAP server. On first login, the plugin creates a user account for you, and adds your full name and mail address into your user profile. By default, new users created via the LDAP plugin are given the `admin` role; see [Configure](#Configure) below. The language for newly created users is `en` by default; this can be changed in the Kirby panel.
 
-With this plugin, you can login into Kirby with your LDAP-credentials (mail + password).
-It creates a user for you at your first login and loads your full name into your Kirby-User.
-Per default, a user that logged in with ldap, is admin and has all permissions. See part "Configure"
-Language of new created user is en as default, but can be changed in backend.
+## Installation
 
-## Install
+To install the Kirby LDAP plugin, clone the plugin repository into your `<kirby_document_root>/public/site/plugins/` directory. You can also install the plugin via `composer` or as a `git submodule` if you want to.
 
-to install, just put this plugin-folder into the public/site/plugins folder.
+## Configuration
 
-You can also install it with composer or as git submodule if you want to.
+Configure LDAP server access via: `<kirby_document_root>/public/site/config/config.php`
 
-## Configure
+```php
+<?php
+    return [
+        ...
+        'datamints.ldap.host'     => "ldap://subdomain.domain.tld:port", // host of ldap-server
+        'datamints.ldap.bind_dn'  => "cn=common-name,dc=domain,dc=tld", // login username for global access
+        'datamints.ldap.bind_pw'  => "[password that fits to ldap_bind_dn", // login password for global access
+        'datamints.ldap.base_dn'  => "ou=organizational-unit,dc=domain,dc=tld", // path to search for users
+        'datamints.ldap.is_admin' => false, // optional; is every LDAP user an admin? (default: true)
+    ];
+?>
+```
 
-configure your ldap-server:
-
-    public/site/config/config.php
-    ---
-
-    <?php
-        return [
-            ...
-            'datamints.ldap.host'     => "ldap://subdomain.domain.tld:port", //host of ldap-server
-            'datamints.ldap.bind_dn'  => "cn=common-name,dc=domain,dc=tld", //login username for global access
-            'datamints.ldap.bind_pw'  => "[password that fits to ldap_bind_dn", //login password for global access
-            'datamints.ldap.base_dn'  => "ou=organizational-unit,dc=domain,dc=tld", //path to search for users
-            'datamints.ldap.is_admin' => false, //optional. Is every Ldap-user an admin? Default: true
-        ];
-    ?>
-
-if you want to change specific permissions (not just admin true/false), copy site/plugins/datamints_ldap/blueprints/users/LdapUser.yml to site/blueprints/users/LdapUser.yml and change them in that new file as described in https://getkirby.com/docs/guide/users/permissions
-
-## Additional information
-
-if you want, you can gitignore all ldap-users
-
-    .gitignore
-    ---
-
-    public/site/accounts/LDAP_*
+If you want to change the default permissions to be more granular than admin `true`/`false`, copy `site/plugins/datamints_ldap/blueprints/users/LdapUser.yml` to `site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
 
 ## License
 
