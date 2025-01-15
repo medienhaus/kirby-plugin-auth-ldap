@@ -15,11 +15,11 @@ The Kirby LDAP plugin enables you to log in with your LDAP credentials, authenti
 
 ## Installation
 
-To install the Kirby LDAP plugin, clone the plugin repository into your `<kirby_document_root>/public/site/plugins/` directory. You can also install the plugin via `composer` or as a `git submodule` if you want to.
+To install the Kirby LDAP plugin, clone the plugin repository into your `<kirby_document_root>/site/plugins/` directory. You can also install the plugin via `composer` or as a `git submodule` if you want to.
 
 ## Configuration
 
-Configure LDAP server access via: `<kirby_document_root>/public/site/config/config.php`
+Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
 
 ```php
 <?php
@@ -34,7 +34,7 @@ Configure LDAP server access via: `<kirby_document_root>/public/site/config/conf
 ?>
 ```
 
-If you want to change the default permissions to be more granular than admin `true`/`false`, copy `site/plugins/datamints_ldap/blueprints/users/LdapUser.yml` to `site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
+If you want to change the default permissions to be more granular than admin `true`/`false`, copy [`blueprints/users/LdapUser.yml`](/blueprints/users/LdapUser.yml) to `<kirby_document_root>/site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
 
 ## License
 
