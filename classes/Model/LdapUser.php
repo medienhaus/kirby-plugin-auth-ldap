@@ -14,11 +14,11 @@ class LdapUser extends User
      * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid
      * @throws \Kirby\Exception\InvalidArgumentException If the entered password does not match the user password
      */
-    public function validatePassword(string $password = null): bool
+    public function validatePassword(?string $password = null): bool
     {
-        if (Str::length($password) < 8) {
+        if($this->password() === null) {
             http_response_code(403);
-            throw new InvalidArgumentException(['key' => 'user.password.invalid']);
+            throw new NotFoundException(['key' => 'user.password.missing']);
         }
 
         if ((LdapUtility::getUtility()->validatePassword($this->email(), $password)) !== true) {
