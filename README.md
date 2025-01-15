@@ -1,3 +1,14 @@
+> [!NOTE]
+> This is repository was forked off of: [datamints/kirby-plugin_ldap](https://github.com/datamints/kirby-plugin_ldap)
+
+> [!IMPORTANT]
+> The original repository / source code is licensed under: [GNU General Public License v3.0](https://github.com/datamints/kirby-plugin_ldap/blob/master/LICENSE)
+
+> [!TIP]
+> We might want to contact the original authors and ask for approval before publication.
+
+---
+
 ## Datamints Kirby-Plugin Ldap
 
 ## Overview
