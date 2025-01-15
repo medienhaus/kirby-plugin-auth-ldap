@@ -101,10 +101,16 @@ class LdapUtility {
         //Ldap-options
         ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($ldapConn, LDAP_OPT_REFERRALS, 0);
-        
-        //connect
-        ldap_start_tls($ldapConn) or die("cant connect tls: ".$ldap_host);
 
+        // turn on detailed debugging for ldap if debug is set to true
+        if(option('debug') === true) {
+            ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+        }
+
+        // only upgrade to TLS, if configured in the environment
+        if (option('start_tls') === true) {
+            ldap_start_tls($ldapConn) or die("cant connect tls: ".$ldap_host);
+        }
         //bind Ldap-server
         $this->getLdapBind($ldap_bind_dn, $ldap_bind_pw);
     }
