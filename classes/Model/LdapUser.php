@@ -16,7 +16,7 @@ class LdapUser extends User
      */
     public function validatePassword(?string $password = null): bool
     {
-        if($this->password() === null) {
+        if ($this->password() === null) {
             http_response_code(403);
             throw new NotFoundException(['key' => 'user.password.missing']);
         }
@@ -40,11 +40,12 @@ class LdapUser extends User
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @return string
      */
-    public function getLdapDn() {
+    public function getLdapDn()
+    {
         return LdapUtility::getUtility()->getLdapDn($this->email());
     }
 
@@ -56,7 +57,8 @@ class LdapUser extends User
      *
      * @return \Kirby\Cms\User
      */
-    public static function findOrCreateIfLdap($email) {
+    public static function findOrCreateIfLdap($email)
+    {
         //if email not set, return null
         if (empty($email)) {
             return null;
@@ -64,7 +66,7 @@ class LdapUser extends User
 
         // if user already exists, return that user
         $user = kirby()->users()->findByKey($email);
-        if($user != null) {
+        if ($user != null) {
             return $user;
         }
 
@@ -72,18 +74,18 @@ class LdapUser extends User
         $ldapUser = LdapUtility::getUtility()->getLdapUser($email);
 
         //if user does not exist in Ldap too, return null
-        if(!$ldapUser) {
+        if (!$ldapUser) {
             return null;
         }
 
         //if user exists in Ldap
         //create that user in Kirby
         $userProps = [
-            'id'        => "LDAP_".$ldapUser['lastname']."_".substr($ldapUser['uid'], 0, 5),
+            'id'        => "LDAP_" . $ldapUser['lastname'] . "_" . substr($ldapUser['uid'], 0, 5),
             'name'      => $ldapUser['name'],
             'email'     => $ldapUser['mail'],
             'language'  => 'en',
-            'role'      => 'LdapUser'
+            'role'      => 'LdapUser',
         ];
         $user = new LdapUser($userProps);
 
@@ -97,3 +99,4 @@ class LdapUser extends User
         return $user;
     }
 }
+
