@@ -1,14 +1,19 @@
 {
-  "name": "datamints/kirby-plugin_ldap",
-  "description": "Kirby-Login with Ldap",
-  "version": "1.0.1",
+  "name": "medienhaus.kirby-ldap-plugin",
+  "description": "Kirby login with LDAP credentials",
+  "version": "1.1.0",
   "type": "kirby-plugin",
   "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Jonathan Mahlke",
       "email": "j.mahlke@datamints.com",
-      "homepage": "https://datamints.com"
+      "homepage": "https://www.datamints.com/"
+    },
+    {
+      "name": "medienhaus/",
+      "email": "info@medienhaus.dev",
+      "homepage": "https://medienhaus.dev/"
     }
   ],
   "require": {
@@ -16,6 +21,6 @@
     "getkirby/composer-installer": "^1.1"
   },
   "extra": {
-    "installer-name": "datamints_ldap"
+    "installer-name": "medienhaus.kirby-ldap-plugin"
   }
 }
