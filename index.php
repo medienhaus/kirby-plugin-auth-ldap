@@ -4,7 +4,7 @@ load([
     'LdapUtility' => 'classes/Utility/LdapUtility.php'
 ], __DIR__);
 
-Kirby::plugin('datamints/ldap', [
+Kirby::plugin('medienhaus/kirby-ldap-plugin', [
     'userModels' => [
         'LdapUser' => 'LdapUser'
     ],
@@ -19,6 +19,6 @@ Kirby::plugin('datamints/ldap', [
         }
     ],
     'options' => [
-        'is_admin' => true
+        'is_admin' => false
     ]
 ]);
