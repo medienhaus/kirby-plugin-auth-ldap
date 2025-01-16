@@ -1,5 +1,5 @@
 title: LdapUser
-description: The account logs in with Ldap and is an admin.
+description: Account is managed via LDAP server
 
 sections:
 	ldapID:
