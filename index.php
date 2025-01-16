@@ -14,7 +14,7 @@ Kirby::plugin('datamints/ldap', [
     'hooks' => [
         'route:before' => function ($route, $path, $method) {
             if($path == 'api/auth/login' && $method == "POST") {
-                LdapUser::findOrCreateIfLdap($this->request()->get('email'));
+                LdapUser::findOrCreateIfLdapUsername($this->request()->get('email'));
             }
         }
     ],
