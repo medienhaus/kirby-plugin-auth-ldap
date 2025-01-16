@@ -104,11 +104,12 @@ class LdapUser extends User
      * @param string $username
      * @return array|null An array of user details if successful, or null if the user could not be found or created.
      */
-    public static function findOrCreateIfLdapUsername($username) {
+    public static function findOrCreateIfLdapUsername($email) {
         if (empty($username)) {
             throw new Exception("Username or password cannot be empty.");
         }
-
+        //extract username from email
+        $username = explode("@", $email)[0];
         // Try finding the user via LDAP
         $ldapUtility = self::getUtility();
 
