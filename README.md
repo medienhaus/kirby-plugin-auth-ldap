@@ -24,12 +24,14 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
 ```php
 <?php
     return [
-        ...
-        'datamints.ldap.host'     => "ldap://subdomain.domain.tld:port", // host of ldap-server
-        'datamints.ldap.bind_dn'  => "cn=common-name,dc=domain,dc=tld", // login username for global access
-        'datamints.ldap.bind_pw'  => "[password that fits to ldap_bind_dn", // login password for global access
-        'datamints.ldap.base_dn'  => "ou=organizational-unit,dc=domain,dc=tld", // path to search for users
-        'datamints.ldap.is_admin' => false, // optional; is every LDAP user an admin? (default: true)
+        ...,
+        'medienhaus.kirby-ldap-plugin' => [
+            'hostname' => "ldap://ldap.example.org:389",
+            'bind_dn' => "cn=admin,dc=example,dc=org",
+            'bind_pw' => "*****************************",
+            'base_dn' => "ou=people,dc=example,dc=org",
+            'is_admin' => false, // assign every LDAP user the `admin` role in Kirby (default: false)
+        ],
     ];
 ?>
 ```
