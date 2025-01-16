@@ -40,7 +40,7 @@ class LdapUtility
      */
     public function getLdapUser($mail)
     {
-        $ldap_base_dn = option('datamints.ldap.base_dn');
+        $ldap_base_dn = option('medienhaus.kirby-ldap-plugin.base_dn');
         if (empty($mail)) {
             return false;
         }
@@ -100,9 +100,9 @@ class LdapUtility
     private function getNewLdapConnection()
     {
         global $ldapConn;
-        $ldap_host = option("datamints.ldap.host");
-        $ldap_bind_dn = option("datamints.ldap.bind_dn");
-        $ldap_bind_pw = option("datamints.ldap.bind_pw");
+        $ldap_host = option("medienhaus.kirby-ldap-plugin.host");
+        $ldap_bind_dn = option("medienhaus.kirby-ldap-plugin.bind_dn");
+        $ldap_bind_pw = option("medienhaus.kirby-ldap-plugin.bind_pw");
 
         //create uri-element
         //TODO or throw Error
@@ -118,7 +118,7 @@ class LdapUtility
         }
 
         // only upgrade to TLS, if configured in the environment
-        if (option('start_tls') === true) {
+        if (option('medienhaus.kirby-ldap-plugin.start_tls') === true) {
             ldap_start_tls($ldapConn) or die("cant connect tls: " . $ldap_host);
         }
         //bind Ldap-server
