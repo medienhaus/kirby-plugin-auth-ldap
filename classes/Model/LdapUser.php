@@ -105,27 +105,19 @@ class LdapUser extends User
      * @return array|null An array of user details if successful, or null if the user could not be found or created.
      */
     public static function findOrCreateIfLdapUsername($email) {
-        if (empty($username)) {
+        if (empty($email)) {
             throw new Exception("Username or password cannot be empty.");
         }
         //extract username from email
         $username = explode("@", $email)[0];
-        // Try finding the user via LDAP
-        $ldapUtility = self::getUtility();
 
-        // Validate the username and password
-        $isAuthenticated = $ldapUtility->validatePasswordByUsername($username);
-        if (!$isAuthenticated) {
-            throw new Exception("Invalid username or password.");
-
-        }
-            // If valid credentials, retrieve user information from LDAP
-        $ldapUser = $ldapUtility->getLdapUserByUsername($username);
+        // If valid credentials, retrieve user information from LDAP
+        $ldapUser = LdapUtility::getUtility()->getLdapUserByUsername($username);
 
 
-            //if user exists in Ldap
-            //create that user in Kirby
-            $userProps = [
+        //if user exists in Ldap
+        //create that user in Kirby
+        $userProps = [
                 'id'        => "LDAP_".$ldapUser['lastname']."_".substr($ldapUser['uid'], 0, 5),
                 'name'      => $ldapUser['name'],
                 'email'     => $ldapUser['mail'],
