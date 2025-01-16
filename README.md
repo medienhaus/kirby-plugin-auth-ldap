@@ -31,6 +31,7 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
             'bind_pw' => "*****************************",
             'base_dn' => "ou=people,dc=example,dc=org",
             'is_admin' => false, // assign every LDAP user the `admin` role in Kirby (default: false)
+            'start_tls' => true,
         ],
     ];
 ?>
