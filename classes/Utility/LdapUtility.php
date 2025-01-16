@@ -71,6 +71,41 @@ class LdapUtility {
         return $user;
     }
 
+    public function getLdapUserByUsername($username) {
+        $ldap_base_dn = option('datamints.ldap.base_dn');
+        if (empty($username)) return false;
+
+        $ldap = $this->getLdapConnection();
+
+        // Search using the username
+        $filter = "(uid=$username)";
+        $result = ldap_search($ldap, $ldap_base_dn, $filter);
+
+        // Get LDAP entries
+        $entries = ldap_get_entries($ldap, $result);
+
+        // Initialize user object as false (default)
+        $user = false;
+
+        // Check if a user is found
+        $count = $entries['count'];
+        if ($count > 0) {
+            $entry = $entries[0];
+
+            // Map the LDAP entry to a user array
+            $user = [
+                "uid" => $entry["uid"][0],
+                "dn" => $entry["dn"],
+                "name" => $entry["cn"][0],
+                "lastname" => $entry["sn"][0],
+                "givenname" => $entry["givenname"][0],
+                "mail" => $entry["mail"][0],
+            ];
+        }
+
+        return $user;
+    }
+
     /**
      * gets the LdapConnection generated with ldap_connect()
      * if no Connection is existing, create a new one
@@ -115,6 +150,8 @@ class LdapUtility {
         $this->getLdapBind($ldap_bind_dn, $ldap_bind_pw);
     }
 
+
+
     /**
      * tries to bind with the given user and password.
      * user is the ldap-dn string
@@ -144,6 +181,12 @@ class LdapUtility {
         return $user["dn"];
     }
 
+    public function getLdapDnByUsername($username) {
+        if (strlen($username) < 1) throw new Exception("get Ldap DN without username");
+        $user = $this->getLdapUserByUsername($username);
+        return $user["dn"];
+    }
+
     /**
      * checks if the user credentials are correct.
      * params are mail and plain-text password
@@ -163,5 +206,23 @@ class LdapUtility {
         }
         return $bind;
     }
+    /**
+     * Checks if the user credentials are correct.
+     * Params are username and plain-text password.
+     *
+     * @param string $username
+     * @param string $password
+     * @return bool
+     * @throws Exception
+     */
+    public function validatePasswordByUsername($username, $password) {
+        if (strlen($username) < 1) throw new Exception("validate Password without username");
+        $ldap_user_dn = $this->getLdapDnByUsername($username);
+        $bind = $this->getLdapBind($ldap_user_dn, $password);
+        return $bind !== false;
+    }
+
+
+
 }
 ?>
