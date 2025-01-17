@@ -5,7 +5,7 @@ load([
     'LdapUtility' => 'classes/Utility/LdapUtility.php',
 ], __DIR__);
 
-Kirby::plugin('medienhaus/kirby-ldap-plugin', [
+Kirby::plugin('medienhaus/kirby-plugin-auth-ldap', [
     'userModels' => [
         'LdapUser' => 'LdapUser',
     ],

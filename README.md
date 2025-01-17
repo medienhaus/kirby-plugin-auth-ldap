@@ -25,7 +25,7 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
 <?php
     return [
         ...,
-        'medienhaus.kirby-ldap-plugin' => [
+        'medienhaus.kirby-plugin-auth-ldap' => [
             'hostname' => 'ldap://ldap.example.org:389',
             'bind_dn' => 'cn=admin,dc=example,dc=org',
             'bind_pw' => '*****************************',

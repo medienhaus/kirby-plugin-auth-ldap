@@ -36,7 +36,7 @@ class LdapUser extends User
      */
     public function isAdmin(): bool
     {
-        return option('medienhaus.kirby-ldap-plugin.is_admin');
+        return option('medienhaus.kirby-plugin-auth-ldap.is_admin');
     }
 
     /**

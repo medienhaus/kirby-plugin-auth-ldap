@@ -1,5 +1,5 @@
 {
-  "name": "medienhaus.kirby-ldap-plugin",
+  "name": "medienhaus.kirby-plugin-auth-ldap",
   "description": "Kirby login with LDAP credentials",
   "version": "1.1.0",
   "type": "kirby-plugin",
@@ -21,6 +21,6 @@
     "getkirby/composer-installer": "^1.1"
   },
   "extra": {
-    "installer-name": "medienhaus.kirby-ldap-plugin"
+    "installer-name": "medienhaus.kirby-plugin-auth-ldap"
   }
 }
