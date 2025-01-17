@@ -37,6 +37,11 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
             ],
             'is_admin' => false, // assign every LDAP user the `admin` role in Kirby (default: false)
             'start_tls' => true, // enable TLS-secured connection instead of secure `ldaps://` protocol via port `636`
+            'tls_options' => [
+                'validate' => false,
+                'version' => 'PROTOCOL_TLSv1_2',
+                'ciphers' => 'ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:DHE+CHACHA20:ECDH+AESGCM:DH+AESGCM:ECDH+AES:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!eNULL:!MD5:!DSS',
+            ],
         ],
     ];
 ?>
