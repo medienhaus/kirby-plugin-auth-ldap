@@ -75,7 +75,7 @@ class LdapUtility
 
             // beautify user-array
             $user = [
-
+                "dn" => $entry["dn"],
                 "uid" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.uid' || "uid")][0],
                 "name" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.name' || "cn")][0],
                 "mail" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.mail' || 'mail')][0],
