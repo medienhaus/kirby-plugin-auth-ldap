@@ -62,18 +62,19 @@ class LdapUtility
 
         $result = ldap_search($ldap, $ldap_base_dn, $filter);
 
-        //get user
+        // get user
         $entries = ldap_get_entries($ldap, $result);
 
-        //create user object. Is false on fail.
+        // create user object. Is false on fail.
         $user = false;
 
-        //check if user is found
+        // check if user is found
         $count = $entries["count"];
         if (0 < $count) {
             $entry = $entries[0];
 
-            //beautify user-array
+            // beautify user-array
+            // TODO: use values from config `attributes` options
             $user = [
                 "uid" => $entry["uid"][0],
                 "dn" => $entry["dn"],
@@ -84,7 +85,7 @@ class LdapUtility
             ];
         }
 
-        //return user array or false on fail
+        // return user array or false on fail
         return $user;
     }
 
@@ -115,11 +116,12 @@ class LdapUtility
         $ldap_bind_dn = option("medienhaus.kirby-plugin-auth-ldap.bind_dn");
         $ldap_bind_pw = option("medienhaus.kirby-plugin-auth-ldap.bind_pw");
 
-        //create uri-element
-        //TODO or throw Error
-        $ldapConn = ldap_connect($ldap_host) or die("invalid Host: " . $ldap_host . " - it should look like ldap://subdomain.domain.tld:port");
+        // create uri-element
+        // TODO: or throw Error
+        $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host . " -- `host` should be like: `ldap://subdomain.domain.tld:port`");
 
         //Ldap-options
+        // LDAP options (docs: https://www.php.net/manual/en/function.ldap-set-option.php)
         ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($ldapConn, LDAP_OPT_REFERRALS, 0);
 
@@ -132,7 +134,8 @@ class LdapUtility
         if (option('medienhaus.kirby-plugin-auth-ldap.start_tls') === true) {
             ldap_start_tls($ldapConn) or die("cant connect tls: " . $ldap_host);
         }
-        //bind Ldap-server
+
+        // authorize and bind the LDAP admin account
         $this->getLdapBind($ldap_bind_dn, $ldap_bind_pw);
     }
 
@@ -163,7 +166,7 @@ class LdapUtility
     public function getLdapDn($mail)
     {
         if (strlen($mail) < 1) {
-            throw new Exception("get Ldap DN without mail");
+            throw new Exception("get LDAP DN without mail");
         }
         $user = $this->getLdapUser($mail);
         return $user["dn"];
@@ -182,7 +185,7 @@ class LdapUtility
     public function validatePassword($mail, $ldap_user_pw)
     {
         if (strlen($mail) < 1) {
-            throw new Exception("validate Password without mail");
+            throw new Exception("validate password without mail");
         }
         $ldap_user_dn = $this->getLdapDn($mail);
         $bind = $this->getLdapBind($ldap_user_dn, $ldap_user_pw);
