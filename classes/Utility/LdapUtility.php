@@ -47,8 +47,13 @@ class LdapUtility
 
         $ldap = $this->getLdapConnection();
 
-        //search for matching user
-        $filter = "(mail=$mail)";
+        // search for matching user
+        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
+            $filter = "(" . option('medienhaus.kirby-plugin-auth-ldap.attributes.mail') . "=$mail)";
+        } else {
+            $filter = "(mail=$mail)";
+        }
+
         $result = ldap_search($ldap, $ldap_base_dn, $filter);
 
         //get user
