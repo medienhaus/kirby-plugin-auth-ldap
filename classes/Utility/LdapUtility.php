@@ -117,8 +117,8 @@ class LdapUtility
         // TODO: or throw Error
         $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host . " -- `host` should be like: `ldap://subdomain.domain.tld:port`");
 
-        // turn on detailed debugging for LDAP if global `debug` option is enabled
-        if (option('debug') === true) {
+        // conditionally enable debugging for LDAP connection
+        if (option('debug') === true || option('medienhaus.kirby-plugin-auth-ldap.debug') === true) {
             ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
         }
 
