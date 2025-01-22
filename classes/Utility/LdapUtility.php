@@ -73,12 +73,29 @@ class LdapUtility
         if (0 < $count) {
             $entry = $entries[0];
 
+            if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
+                $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
+            } else {
+                $ldap_uid ="uid";
+            }
+
+            if(option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
+                $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
+            } else {
+                $ldap_name = "cn";
+            }
+
+            if(option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
+                $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
+            } else {
+                $ldap_mail = "mail";
+            }
             // beautify user-array
             $user = [
                 "dn" => $entry["dn"],
-                "uid" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.uid' || "uid")][0],
-                "name" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.name' || "cn")][0],
-                "mail" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.mail' || 'mail')][0],
+                "uid" => $entry[$ldap_uid][0],
+                "name" => $entry[$ldap_name][0],
+                "mail" => $entry[$ldap_mail][0],
             ];
         }
 
