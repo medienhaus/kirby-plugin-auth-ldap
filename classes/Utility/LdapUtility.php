@@ -127,13 +127,13 @@ class LdapUtility
     private function getNewLdapConnection()
     {
         global $ldapConn;
+
         $ldap_host = option("medienhaus.kirby-plugin-auth-ldap.host");
         $ldap_bind_dn = option("medienhaus.kirby-plugin-auth-ldap.bind_dn");
         $ldap_bind_pw = option("medienhaus.kirby-plugin-auth-ldap.bind_pw");
 
-        // create uri-element
-        // TODO: or throw Error
-        $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host . " -- `host` should be like: `ldap://subdomain.domain.tld:port`");
+        // establish connection to LDAP server
+        $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host);
 
         // conditionally enable debugging for LDAP connection
         if (option('debug') === true || option('medienhaus.kirby-plugin-auth-ldap.debug') === true) {
