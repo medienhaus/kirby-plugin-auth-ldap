@@ -6,11 +6,15 @@ sections:
     type: info
     label: DN
     text: "{{ user.getLdapDn }}"
+  #ldap_uid:
+  #  type: info
+  #  label: UID
+  #  text: "{{ user.getLdapUid }}"
   #ldap_mail:
   #  type: info
   #  label: Mail
-  #  text: "{{ user.getLdapDn }}"
+  #  text: "{{ user.getLdapMail }}"
   #ldap_name:
   #  type: info
-  #  label: UID
-  #  text: "{{ user.getLdapDn }}"
+  #  label: Name
+  #  text: "{{ user.getLdapName }}"
