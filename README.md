@@ -43,7 +43,7 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
                 'version' => 'LDAP_OPT_X_TLS_PROTOCOL_TLS1_2',
                 'ciphers' => 'ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:DHE+CHACHA20:ECDH+AESGCM:DH+AESGCM:ECDH+AES:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!eNULL:!MD5:!DSS',
             ],
-            'debug' => true, // enable debugging for LDAP connection
+            'debug' => false, // enable debugging for LDAP connection
         ],
     ];
 ?>
