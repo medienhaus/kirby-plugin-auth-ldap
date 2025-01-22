@@ -5,7 +5,7 @@ use Kirby\Cms\User;
 class LdapUser extends User
 {
     /**
-     * Compares the given password with ldap
+     * Tries to authenticate against LDAP server with the given password
      *
      * @param string $password
      * @return bool
@@ -30,7 +30,7 @@ class LdapUser extends User
     }
 
     /**
-     * Checks if this user has the admin role
+     * Conditionally applies `admin` role to new LDAP users
      *
      * @return bool
      */
@@ -40,7 +40,7 @@ class LdapUser extends User
     }
 
     /**
-     *
+     * Acquire DN of new LDAP user from LDAP server
      *
      * @return string
      */
@@ -50,8 +50,7 @@ class LdapUser extends User
     }
 
     /**
-     * creates a LdapUser in Kirby, if it does not exist in Kirby but in Ldap
-     * if (!kirbyUser && ldapUser) new kirbyUser
+     * Conditionally create new user account if it does not already exist in Kirby
      *
      * @param string $email
      *
@@ -59,7 +58,7 @@ class LdapUser extends User
      */
     public static function findOrCreateIfLdap($email)
     {
-        //if email not set, return null
+        // if email not set, return null
         if (empty($email)) {
             return null;
         }
@@ -70,32 +69,54 @@ class LdapUser extends User
             return $user;
         }
 
-        //if user does not exist in Kirby, search in Ldap
+        // if user does not exist in Kirby, search in LDAP
         $ldapUser = LdapUtility::getUtility()->getLdapUser($email);
 
-        //if user does not exist in Ldap too, return null
+        // if user does not exist in LDAP, return null
         if (!$ldapUser) {
             return null;
         }
 
-        //if user exists in Ldap
-        //create that user in Kirby
+        // conditionally set LDAP uid attribute
+        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
+            $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
+        } else {
+            $ldap_uid = 'uid';
+        }
+
+        // conditionally set LDAP name attribute
+        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
+            $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
+        } else {
+            $ldap_name = 'cn';
+        }
+
+        // conditionally set LDAP mail attribute
+        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
+            $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
+        } else {
+            $ldap_mail = 'mail';
+        }
+
+        // set user attributes
         $userProps = [
-            'id'        => "LDAP_" . $ldapUser['lastname'] . "_" . substr($ldapUser['uid'], 0, 5),
-            'name'      => $ldapUser['name'],
-            'email'     => $ldapUser['mail'],
+            'id'        => 'LDAP_' . $ldapUser[$ldap_uid],
+            'name'      => $ldapUser[$ldap_name],
+            'email'     => $ldapUser[$ldap_mail],
             'language'  => 'en',
             'role'      => 'LdapUser',
         ];
+
+        // create new user with user attributes
         $user = new LdapUser($userProps);
 
-        //save the user
+        // save the new user account to Kirby
         $user->writeCredentials($userProps);
 
         // add the user to users collection
         $user->kirby()->users()->add($user);
 
-        //return it
+        // return the user account
         return $user;
     }
 }
