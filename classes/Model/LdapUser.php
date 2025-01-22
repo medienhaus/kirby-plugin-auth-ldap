@@ -50,6 +50,45 @@ class LdapUser extends User
     }
 
     /**
+     * Acquire UID of LDAP user from LDAP server
+     *
+     * @return string
+     */
+    // TODO: add function to LdapUtility
+    /*
+    public function getLdapUid()
+    {
+        return LdapUtility::getUtility()->getLdapUid($this->email());
+    }
+     */
+
+    /**
+     * Acquire Mail of LDAP user from LDAP server
+     *
+     * @return string
+     */
+    // TODO: add function to LdapUtility
+    /*
+    public function getLdapMail()
+    {
+        return LdapUtility::getUtility()->getLdapMail($this->email());
+    }
+     */
+
+    /**
+     * Acquire Name of LDAP user from LDAP server
+     *
+     * @return string
+     */
+    // TODO: add function to LdapUtility
+    /*
+    public function getLdapName()
+    {
+        return LdapUtility::getUtility()->getLdapName($this->email());
+    }
+     */
+
+    /**
      * Conditionally create new user account if it does not already exist in Kirby
      *
      * @param string $email
