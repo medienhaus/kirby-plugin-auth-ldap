@@ -47,13 +47,13 @@ class LdapUtility
         if (option('medienhaus.kirby-plugin-auth-ldap.base_dn')) {
             $ldap_base_dn = option('medienhaus.kirby-plugin-auth-ldap.base_dn');
         } else {
-            // TODO: exit/fail/quit via `return false`?
-            return false;
+            //TODO use die() or throw Exception?
+            die("LDAP base_dn not set in config");
         }
 
         $ldap = $this->getLdapConnection();
 
-        // search for matching user
+        // search for matching user by mail
         if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
             $filter = "(" . option('medienhaus.kirby-plugin-auth-ldap.attributes.mail') . "=$mail)";
         } else {
@@ -74,14 +74,11 @@ class LdapUtility
             $entry = $entries[0];
 
             // beautify user-array
-            // TODO: use values from config `attributes` options
             $user = [
-                "uid" => $entry["uid"][0],
-                "dn" => $entry["dn"],
-                "name" => $entry["cn"][0],
-                "lastname" => $entry["sn"][0],
-                "givenname" => $entry["givenname"][0],
-                "mail" => $entry["mail"][0],
+
+                "uid" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.uid' || "uid")][0],
+                "name" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.name' || "cn")][0],
+                "mail" => $entry[option('medienhaus.kirby-plugin-auth-ldap.attributes.mail' || 'mail')][0],
             ];
         }
 

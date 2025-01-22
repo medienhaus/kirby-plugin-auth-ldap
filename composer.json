@@ -1,5 +1,5 @@
 {
-  "name": "medienhaus.kirby-plugin-auth-ldap",
+  "name": "medienhaus/kirby-plugin-auth-ldap",
   "description": "Kirby login with LDAP credentials",
   "version": "1.1.0",
   "type": "kirby-plugin",
