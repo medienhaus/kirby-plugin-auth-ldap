@@ -40,8 +40,14 @@ class LdapUtility
      */
     public function getLdapUser($mail)
     {
-        $ldap_base_dn = option('medienhaus.kirby-plugin-auth-ldap.base_dn');
         if (empty($mail)) {
+            return false;
+        }
+
+        if (option('medienhaus.kirby-plugin-auth-ldap.base_dn')) {
+            $ldap_base_dn = option('medienhaus.kirby-plugin-auth-ldap.base_dn');
+        } else {
+            // TODO: exit/fail/quit via `return false`?
             return false;
         }
 
