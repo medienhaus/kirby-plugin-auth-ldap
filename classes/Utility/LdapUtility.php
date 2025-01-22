@@ -120,19 +120,32 @@ class LdapUtility
         // TODO: or throw Error
         $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host . " -- `host` should be like: `ldap://subdomain.domain.tld:port`");
 
-        //Ldap-options
-        // LDAP options (docs: https://www.php.net/manual/en/function.ldap-set-option.php)
-        ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($ldapConn, LDAP_OPT_REFERRALS, 0);
-
-        // turn on detailed debugging for ldap if debug is set to true
+        // turn on detailed debugging for LDAP if global `debug` option is enabled
         if (option('debug') === true) {
             ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
         }
 
-        // only upgrade to TLS, if configured in the environment
-        if (option('medienhaus.kirby-plugin-auth-ldap.start_tls') === true) {
-            ldap_start_tls($ldapConn) or die("cant connect tls: " . $ldap_host);
+        // LDAP options (docs: https://www.php.net/manual/en/function.ldap-set-option.php)
+        ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($ldapConn, LDAP_OPT_REFERRALS, 0);
+
+        // TLS options (optional)
+        if (option('medienhaus.kirby-plugin-auth-ldap.tls_options')) {
+            if (option('medienhaus.kirby-plugin-auth-ldap.tls_options.validate')) {
+                ldap_set_option($ldapConn, LDAP_OPT_X_TLS_REQUIRE_CERT, option('medienhaus.kirby-plugin-auth-ldap.tls_options.validate'));
+            }
+            if (option('medienhaus.kirby-plugin-auth-ldap.tls_options.version')) {
+                ldap_set_option($ldapConn, LDAP_OPT_X_TLS_PROTOCOL_MIN, option('medienhaus.kirby-plugin-auth-ldap.tls_options.version'));
+            }
+            if (option('medienhaus.kirby-plugin-auth-ldap.tls_options.ciphers')) {
+                ldap_set_option($ldapConn, LDAP_OPT_X_TLS_CIPHER_SUITE, option('medienhaus.kirby-plugin-auth-ldap.tls_options.ciphers'));
+            }
+        }
+
+        // upgrade to TLS-secured connection
+        // TODO: when exactly is the `die()` error message thrown? steps to reproduce?
+        if (option('medienhaus.kirby-plugin-auth-ldap.start_tls') !== false) {
+            ldap_start_tls($ldapConn) or die("Can’t connect via TLS: " . $ldap_host);
         }
 
         // authorize and bind the LDAP admin account
