@@ -117,31 +117,34 @@ class LdapUser extends User
         }
 
         // conditionally set LDAP uid attribute
-        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
-            $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
-        } else {
-            $ldap_uid = 'uid';
-        }
+        // if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
+        //     $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
+        // } else {
+        //     $ldap_uid = 'uid';
+        // }
 
         // conditionally set LDAP name attribute
-        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
-            $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
-        } else {
-            $ldap_name = 'cn';
-        }
+        // if (option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
+        //     $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
+        // } else {
+        //     $ldap_name = 'cn';
+        // }
 
         // conditionally set LDAP mail attribute
-        if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
-            $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
-        } else {
-            $ldap_mail = 'mail';
-        }
+        // if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
+        //     $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
+        // } else {
+        //     $ldap_mail = 'mail';
+        // }
 
         // set user attributes
         $userProps = [
-            'id'        => 'LDAP_' . $ldapUser[$ldap_uid],
-            'name'      => $ldapUser[$ldap_name],
-            'email'     => $ldapUser[$ldap_mail],
+            'id'        => 'LDAP_' . $ldapUser['uid'],
+            'name'      => $ldapUser['name'],
+            'email'     => $ldapUser['mail'],
+            // 'id'        => 'LDAP_' . $ldapUser[$ldap_uid],
+            // 'name'      => $ldapUser[$ldap_name],
+            // 'email'     => $ldapUser[$ldap_mail],
             'language'  => 'en',
             'role'      => 'LdapUser',
         ];
