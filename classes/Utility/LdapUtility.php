@@ -92,11 +92,20 @@ class LdapUtility
             }
 
             // beautify user-array
+            //
+            // NOTE: attributes need to be lowercase here !!
+            //
+            // The attribute index is converted to lowercase.
+            // (Attributes are case-insensitive for directory servers,
+            // but not when used as array indices.)
+            //
+            // docs: https://www.php.net/manual/en/function.ldap-get-entries.php
+            //
             $user = [
                 "dn" => $entry["dn"],
-                "uid" => $entry[$ldap_uid][0],
-                "name" => $entry[$ldap_name][0],
-                "mail" => $entry[$ldap_mail][0],
+                "uid" => $entry[strtolower($ldap_uid)][0],
+                "name" => $entry[strtolower($ldap_name)][0],
+                "mail" => $entry[strtolower($ldap_mail)][0],
             ];
         }
 
