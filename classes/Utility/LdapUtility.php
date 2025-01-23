@@ -6,8 +6,7 @@ class LdapUtility
     private static $utility = null;
 
     /**
-     * LdapUtility constructor.
-     * stores itself in a static variable
+     * LdapUtility constructor; stores itself in a static variable
      */
     public function __construct()
     {
@@ -16,8 +15,7 @@ class LdapUtility
     }
 
     /**
-     * We dont need more than one Utility.
-     * returns the saved one or create a new if no utility object is stored
+     * Return saved LdapUtility, or create new LdapUtility if none is stored
      *
      * @return LdapUtility
      */
@@ -31,8 +29,9 @@ class LdapUtility
     }
 
     /**
-     * get information about the user from the Ldap-Server. returns $user or FALSE
-     * $user is an array of strings [uid, dn, name, lastname, givenname, mail]
+     * Retrieve account information from the LDAP server; returns `$user` or `false`
+     *
+     * `$user` is an array of strings [dn, uid, mail, name]
      *
      * @param string $mail
      *
@@ -53,7 +52,7 @@ class LdapUtility
 
         $ldap = $this->getLdapConnection();
 
-        // search for matching user by mail
+        // search for matching user by provided mail address
         if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
             $filter = "(" . option('medienhaus.kirby-plugin-auth-ldap.attributes.mail') . "=$mail)";
         } else {
@@ -62,10 +61,10 @@ class LdapUtility
 
         $result = ldap_search($ldap, $ldap_base_dn, $filter);
 
-        // get user
+        // get user entry
         $entries = ldap_get_entries($ldap, $result);
 
-        // create user object. Is false on fail.
+        // create user object; if that fails, `$user` remains set to `false`
         $user = false;
 
         // check if user is found
@@ -114,8 +113,7 @@ class LdapUtility
     }
 
     /**
-     * gets the LdapConnection generated with ldap_connect()
-     * if no Connection is existing, create a new one
+     * Return LDAP connection, or create new connection if none is established
      *
      * @return mixed
      */
@@ -130,13 +128,13 @@ class LdapUtility
     }
 
     /**
-     * Creates a new LdapConnection generated with ldap_connect(), sets options, starts tls and binds it once that ldap_search works.
-     * Sets the new Connection into the global variable $ldapConn
+     * Create new LDAP connection; set LDAP options, TLS options, and authorize/bind user for LDAP search
      */
     private function getNewLdapConnection()
     {
         global $ldapConn;
 
+        // LDAP credentials
         $ldap_host = option("medienhaus.kirby-plugin-auth-ldap.host");
         $ldap_bind_dn = option("medienhaus.kirby-plugin-auth-ldap.bind_dn");
         $ldap_bind_pw = option("medienhaus.kirby-plugin-auth-ldap.bind_pw");
@@ -167,18 +165,16 @@ class LdapUtility
         }
 
         // upgrade to TLS-secured connection
-        // TODO: when exactly is the `die()` error message thrown? steps to reproduce?
         if (option('medienhaus.kirby-plugin-auth-ldap.start_tls') !== false) {
             ldap_start_tls($ldapConn) or die("Can’t connect via TLS: " . $ldap_host);
         }
 
-        // authorize and bind the LDAP admin account
+        // authorize/bind user for LDAP search
         $this->getLdapBind($ldap_bind_dn, $ldap_bind_pw);
     }
 
     /**
-     * tries to bind with the given user and password.
-     * user is the ldap-dn string
+     * Authorize/bind the user for LDAP search
      *
      * @param string $user
      * @param string $password
@@ -193,8 +189,7 @@ class LdapUtility
     }
 
     /**
-     * gets the ldap-dn of a user from his mail
-     * throws exception if no email is passed.
+     * Retrieve LDAP attribute `dn` of user by provided mail address
      *
      * @param string $mail
      * @return string
