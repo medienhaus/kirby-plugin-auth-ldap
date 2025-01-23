@@ -204,6 +204,54 @@ class LdapUtility
     }
 
     /**
+     * Retrieve LDAP attribute `uid` of user by provided mail address
+     *
+     * @param string $mail
+     * @return string
+     * @throws Exception
+     */
+    public function getLdapUid($mail)
+    {
+        if (strlen($mail) < 1) {
+            throw new Exception("get LDAP DN without mail");
+        }
+        $user = $this->getLdapUser($mail);
+        return $user["uid"];
+    }
+
+    /**
+     * Retrieve LDAP attribute `mail` of user by provided mail address
+     *
+     * @param string $mail
+     * @return string
+     * @throws Exception
+     */
+    public function getLdapMail($mail)
+    {
+        if (strlen($mail) < 1) {
+            throw new Exception("get LDAP DN without mail");
+        }
+        $user = $this->getLdapUser($mail);
+        return $user["mail"];
+    }
+
+    /**
+     * Retrieve LDAP attribute `name` of user by provided mail address
+     *
+     * @param string $mail
+     * @return string
+     * @throws Exception
+     */
+    public function getLdapName($mail)
+    {
+        if (strlen($mail) < 1) {
+            throw new Exception("get LDAP DN without mail");
+        }
+        $user = $this->getLdapUser($mail);
+        return $user["name"];
+    }
+
+    /**
      * checks if the user credentials are correct.
      * params are mail and plain-text password
      * returns boolean if the credentials are correct
