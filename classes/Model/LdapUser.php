@@ -129,4 +129,3 @@ class LdapUser extends User
         return $user;
     }
 }
-
