@@ -91,6 +91,7 @@ class LdapUtility
 
         // check if user is found
         $count = $entries["count"];
+
         if (0 < $count) {
             $entry = $entries[0];
 
