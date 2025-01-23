@@ -110,8 +110,8 @@ class LdapUser extends User
         // set user attributes
         $userProps = [
             'id'        => 'LDAP_' . $ldapUser['uid'],
-            'name'      => $ldapUser['name'],
             'email'     => $ldapUser['mail'],
+            'name'      => $ldapUser['name'],
             'language'  => 'en',
             'role'      => 'LdapUser',
         ];

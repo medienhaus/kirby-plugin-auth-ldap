@@ -107,8 +107,8 @@ class LdapUtility
             $user = [
                 "dn" => $entry["dn"],
                 "uid" => $entry[strtolower($ldap_uid)][0],
-                "name" => $entry[strtolower($ldap_name)][0],
                 "mail" => $entry[strtolower($ldap_mail)][0],
+                "name" => $entry[strtolower($ldap_name)][0],
             ];
         }
 
