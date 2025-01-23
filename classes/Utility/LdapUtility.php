@@ -5,6 +5,28 @@ class LdapUtility
     private $ldapConn = null;
     private static $utility = null;
 
+    // conditionally enable debugging for LDAP connection
+    if (option('debug') === true || option('medienhaus.kirby-plugin-auth-ldap.debug') === true) {
+        ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
+    }
+
+    // conditionally set LDAP attributes
+    if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
+        $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
+    } else {
+        $ldap_uid = "uid";
+    }
+    if (option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
+        $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
+    } else {
+        $ldap_name = "cn";
+    }
+    if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
+        $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
+    } else {
+        $ldap_mail = "mail";
+    }
+
     /**
      * LdapUtility constructor; stores itself in a static variable
      */
@@ -72,24 +94,6 @@ class LdapUtility
         if (0 < $count) {
             $entry = $entries[0];
 
-            if (option('medienhaus.kirby-plugin-auth-ldap.attributes.uid')) {
-                $ldap_uid = option('medienhaus.kirby-plugin-auth-ldap.attributes.uid');
-            } else {
-                $ldap_uid = "uid";
-            }
-
-            if (option('medienhaus.kirby-plugin-auth-ldap.attributes.name')) {
-                $ldap_name = option('medienhaus.kirby-plugin-auth-ldap.attributes.name');
-            } else {
-                $ldap_name = "cn";
-            }
-
-            if (option('medienhaus.kirby-plugin-auth-ldap.attributes.mail')) {
-                $ldap_mail = option('medienhaus.kirby-plugin-auth-ldap.attributes.mail');
-            } else {
-                $ldap_mail = "mail";
-            }
-
             // beautify user-array
             //
             // NOTE: attributes need to be lowercase here !!
@@ -141,11 +145,6 @@ class LdapUtility
 
         // establish connection to LDAP server
         $ldapConn = ldap_connect($ldap_host) or die("Invalid LDAP host: " . $ldap_host);
-
-        // conditionally enable debugging for LDAP connection
-        if (option('debug') === true || option('medienhaus.kirby-plugin-auth-ldap.debug') === true) {
-            ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
-        }
 
         // LDAP options (docs: https://www.php.net/manual/en/function.ldap-set-option.php)
         ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
