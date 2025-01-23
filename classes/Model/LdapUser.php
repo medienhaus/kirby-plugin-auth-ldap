@@ -40,7 +40,7 @@ class LdapUser extends User
     }
 
     /**
-     * Acquire DN of new LDAP user from LDAP server
+     * Retrieve LDAP attribute `dn` of user by provided mail address
      *
      * @return string
      */
@@ -50,7 +50,7 @@ class LdapUser extends User
     }
 
     /**
-     * Acquire UID of LDAP user from LDAP server
+     * Retrieve LDAP attribute `uid` of user by provided mail address
      *
      * @return string
      */
@@ -60,7 +60,7 @@ class LdapUser extends User
     }
 
     /**
-     * Acquire Mail of LDAP user from LDAP server
+     * Retrieve LDAP attribute `mail` of user by provided mail address
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class LdapUser extends User
     }
 
     /**
-     * Acquire Name of LDAP user from LDAP server
+     * Retrieve LDAP attribute `name` of user by provided mail address
      *
      * @return string
      */
