@@ -51,7 +51,8 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
 ?>
 ```
 
-If you want to change the default permissions to be more granular than admin `true`/`false`, copy [`blueprints/users/LdapUser.yml`](/blueprints/users/LdapUser.yml) to `<kirby_document_root>/site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
+> [!IMPORTANT]
+> If you want to set custom default permissions for all LDAP users, copy [`blueprints/users/LdapUser.yml`](/blueprints/users/LdapUser.yml) to `<kirby_document_root>/site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
 
 ## License
 
