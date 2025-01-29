@@ -1,9 +1,9 @@
 {
   "name": "medienhaus/kirby-plugin-auth-ldap",
-  "description": "Kirby login with LDAP credentials",
-  "version": "1.1.0",
-  "type": "kirby-plugin",
+  "description": "Log in with your LDAP credentials",
   "license": "GPL-3.0-or-later",
+  "type": "kirby-plugin",
+  "version": "1.1.0",
   "authors": [
     {
       "name": "Jonathan Mahlke",
