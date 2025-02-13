@@ -30,7 +30,10 @@ class LdapUser extends User
     }
 
     /**
-     * Conditionally applies `admin` role to new LDAP users
+     * Conditionally applies the Kirby `admin` role to LDAP users on login
+     *
+     * NOTE: this is conditionally applied on _every_ login, hence this setting could be
+     * changed at any time and would apply the updated value to each subsequent login !!
      *
      * @return bool
      */

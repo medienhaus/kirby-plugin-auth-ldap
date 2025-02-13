@@ -45,7 +45,7 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
             ],
             */
             'debug' => false, // enable debugging for LDAP connection
-            'is_admin' => false, // assign every LDAP user the `admin` role in Kirby (default: false)
+            'is_admin' => false, // applies the Kirby `admin` role to LDAP users on login (default: false)
         ],
     ];
 ?>
