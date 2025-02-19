@@ -201,7 +201,7 @@ class LdapUtility
      */
     public function getLdapDn($mail)
     {
-        if (strlen($mail) < 1) {
+        if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
         }
         $user = $this->getLdapUser($mail);
@@ -217,7 +217,7 @@ class LdapUtility
      */
     public function getLdapUid($mail)
     {
-        if (strlen($mail) < 1) {
+        if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
         }
         $user = $this->getLdapUser($mail);
@@ -233,7 +233,7 @@ class LdapUtility
      */
     public function getLdapMail($mail)
     {
-        if (strlen($mail) < 1) {
+        if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
         }
         $user = $this->getLdapUser($mail);
@@ -249,7 +249,7 @@ class LdapUtility
      */
     public function getLdapName($mail)
     {
-        if (strlen($mail) < 1) {
+        if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
         }
         $user = $this->getLdapUser($mail);
@@ -268,7 +268,7 @@ class LdapUtility
      */
     public function validatePassword($mail, $ldap_user_pw)
     {
-        if (strlen($mail) < 1) {
+        if (empty($mail)) {
             throw new Exception("validate password without mail");
         }
         $ldap_user_dn = $this->getLdapDn($mail);
