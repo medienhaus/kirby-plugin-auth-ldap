@@ -70,7 +70,7 @@ class LdapUtility
         // check if user is found
         $count = $entries["count"];
 
-        if (0 < $count) {
+        if (!empty($count)) {
             $entry = $entries[0];
 
             // conditionally set LDAP `uid` attribute
