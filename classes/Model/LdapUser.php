@@ -14,11 +14,26 @@ class LdapUser extends User
      * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid
      * @throws \Kirby\Exception\InvalidArgumentException If the entered password does not match the user password
      */
+
     public function validatePassword(?string $password = null): bool
     {
-        if ($this->password() === null) {
-            http_response_code(403);
-            throw new NotFoundException(['key' => 'user.password.missing']);
+        if (empty($password)) {
+            throw new InvalidArgumentException(['key' => 'user.password.missing']);
+        }
+
+        // `UserRules` enforces a minimum length of 8 characters,
+        // so everything below that is a typo
+        if (Str::length($password) < 8) {
+            throw new InvalidArgumentException(
+                key: 'user.password.invalid',
+            );
+        }
+
+        // too long passwords can cause DoS attacks
+        if (Str::length($password) > 1000) {
+            throw new InvalidArgumentException(
+                key: 'user.password.excessive',
+            );
         }
 
         if ((LdapUtility::getUtility()->validatePassword($this->email(), $password)) !== true) {
@@ -28,6 +43,7 @@ class LdapUser extends User
 
         return true;
     }
+
 
     /**
      * Conditionally applies the Kirby `admin` role to LDAP users on login
@@ -112,11 +128,11 @@ class LdapUser extends User
 
         // set user attributes
         $userProps = [
-            'id'        => 'LDAP_' . $ldapUser['uid'],
-            'email'     => $ldapUser['mail'],
-            'name'      => $ldapUser['name'],
-            'language'  => 'en',
-            'role'      => 'LdapUser',
+            'id' => 'LDAP_' . $ldapUser['uid'],
+            'email' => $ldapUser['mail'],
+            'name' => $ldapUser['name'],
+            'language' => 'en',
+            'role' => 'LdapUser',
         ];
 
         // create new user with user attributes
