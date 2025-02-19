@@ -37,8 +37,7 @@ class LdapUser extends User
         }
 
         if ((LdapUtility::getUtility()->validatePassword($this->email(), $password)) !== true) {
-            http_response_code(403);
-            throw new InvalidArgumentException(['key' => 'user.password.notSame']);
+            throw new InvalidArgumentException(['key' => 'user.password.wrong', 'httpCode' => 401]);
         }
 
         return true;
