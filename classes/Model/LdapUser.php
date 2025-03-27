@@ -10,18 +10,17 @@ class LdapUser extends User
     /**
      * Tries to authenticate against LDAP server with the given password
      *
-     * @param string $password
-     * @return bool
-     *
      * @throws \Kirby\Exception\NotFoundException If the user has no password
-     * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid
-     * @throws \Kirby\Exception\InvalidArgumentException If the entered password does not match the user password
+     * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid or does not match the user password
      */
-
-    public function validatePassword(?string $password = null): bool
-    {
+    public function validatePassword(
+        #[SensitiveParameter]
+        string|null $password = null,
+    ): bool {
         if (empty($password)) {
-            throw new InvalidArgumentException(['key' => 'user.password.missing']);
+            throw new NotFoundException(
+                key: 'user.password.undefined',
+            );
         }
 
         // `UserRules` enforces a minimum length of 8 characters,
@@ -40,7 +39,10 @@ class LdapUser extends User
         }
 
         if ((LdapUtility::getUtility()->validatePassword($this->email(), $password)) !== true) {
-            throw new InvalidArgumentException(['key' => 'user.password.wrong', 'httpCode' => 401]);
+            throw new InvalidArgumentException(
+                key: 'user.password.wrong',
+                httpCode: 401,
+            );
         }
 
         return true;
