@@ -43,7 +43,6 @@ class LdapUser extends User
         return true;
     }
 
-
     /**
      * Conditionally applies the Kirby `admin` role to LDAP users on login
      *
@@ -111,21 +110,24 @@ class LdapUser extends User
             return null;
         }
 
-        // if user already exists, return that user
+        // find user by provided email address
         $user = kirby()->users()->findByKey($email);
-        if ($user != null) {
+
+        // if user already exists, and is not role `LdapUser`, return
+        // user object and continue auth for local Kirby user account
+        if ($user != null && $user->role() != 'LdapUser') {
             return $user;
         }
 
-        // if user does not exist in Kirby, search in LDAP
+        // find user in LDAP user directory by provided email address
         $ldapUser = LdapUtility::getUtility()->getLdapUser($email);
 
-        // if user does not exist in LDAP, return null
+        // if user does not exist in LDAP user directory, return null
         if (!$ldapUser) {
             return null;
         }
 
-        // set user attributes
+        // set user attributes (provided by LDAP server)
         $userProps = [
             'id' => 'LDAP_' . $ldapUser['uid'],
             'email' => $ldapUser['mail'],
