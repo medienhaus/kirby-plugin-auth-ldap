@@ -19,7 +19,7 @@ class LdapUtility
      *
      * @return LdapUtility
      */
-    public static function getUtility()
+    public static function getUtility(): LdapUtility
     {
         global $utility;
         if ($utility == null) {
@@ -37,7 +37,7 @@ class LdapUtility
      *
      * @return array|false
      */
-    public function getLdapUser($mail)
+    public function getLdapUser($mail): array|false
     {
         if (empty($mail)) {
             return false;
@@ -121,7 +121,7 @@ class LdapUtility
      *
      * @return mixed
      */
-    private function getLdapConnection()
+    private function getLdapConnection(): mixed
     {
         global $ldapConn;
         if ($ldapConn != null) {
@@ -134,7 +134,7 @@ class LdapUtility
     /**
      * Create new LDAP connection; set LDAP options, TLS options, and authorize/bind user for LDAP search
      */
-    private function getNewLdapConnection()
+    private function getNewLdapConnection(): void
     {
         global $ldapConn;
 
@@ -184,7 +184,7 @@ class LdapUtility
      * @param string $password
      * @return bool
      */
-    private function getLdapBind($user, $password)
+    private function getLdapBind($user, $password): bool
     {
         set_error_handler(function () { $bind = false; });
         $bind = ldap_bind($this->getLdapConnection(), $user, $password);
@@ -199,7 +199,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
-    public function getLdapDn($mail)
+    public function getLdapDn($mail): string
     {
         if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
@@ -215,7 +215,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
-    public function getLdapUid($mail)
+    public function getLdapUid($mail): string
     {
         if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
@@ -231,7 +231,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
-    public function getLdapMail($mail)
+    public function getLdapMail($mail): string
     {
         if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
@@ -247,7 +247,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
-    public function getLdapName($mail)
+    public function getLdapName($mail): string
     {
         if (empty($mail)) {
             throw new Exception("get LDAP DN without mail");
@@ -266,7 +266,7 @@ class LdapUtility
      * @return bool
      * @throws Exception
      */
-    public function validatePassword($mail, $ldap_user_pw)
+    public function validatePassword($mail, $ldap_user_pw): bool
     {
         if (empty($mail)) {
             throw new Exception("validate password without mail");

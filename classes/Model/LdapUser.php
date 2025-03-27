@@ -66,7 +66,7 @@ class LdapUser extends User
      *
      * @return string
      */
-    public function getLdapDn()
+    public function getLdapDn(): string
     {
         return LdapUtility::getUtility()->getLdapDn($this->email());
     }
@@ -76,7 +76,7 @@ class LdapUser extends User
      *
      * @return string
      */
-    public function getLdapUid()
+    public function getLdapUid(): string
     {
         return LdapUtility::getUtility()->getLdapUid($this->email());
     }
@@ -86,7 +86,7 @@ class LdapUser extends User
      *
      * @return string
      */
-    public function getLdapMail()
+    public function getLdapMail(): string
     {
         return LdapUtility::getUtility()->getLdapMail($this->email());
     }
@@ -96,7 +96,7 @@ class LdapUser extends User
      *
      * @return string
      */
-    public function getLdapName()
+    public function getLdapName(): string
     {
         return LdapUtility::getUtility()->getLdapName($this->email());
     }
@@ -108,7 +108,7 @@ class LdapUser extends User
      *
      * @return \Kirby\Cms\User
      */
-    public static function findOrCreateIfLdap($email)
+    public static function findOrCreateIfLdap($email): null|\Kirby\Cms\User
     {
         // if email not set, return null
         if (empty($email)) {
