@@ -113,7 +113,7 @@ class LdapUser extends User
         // find user by provided email address
         $user = kirby()->users()->findByKey($email);
 
-        // if the user already exists,does not have the role `LdapUser`,
+        // if the user already exists, and does not have the role `LdapUser`, then
         // return the user object and continue auth for local Kirby user account
         if ($user != null && $user->role() != 'LdapUser') {
             return $user;
