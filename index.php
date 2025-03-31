@@ -7,7 +7,7 @@ load([
 
 Kirby::plugin('medienhaus/kirby-plugin-auth-ldap', [
     'userModels' => [
-        'LdapUser' => 'LdapUser',
+        'ldapuser' => 'LdapUser',
     ],
     'blueprints' => [
         'users/LdapUser' => __DIR__ . '/blueprints/users/LdapUser.yml',
