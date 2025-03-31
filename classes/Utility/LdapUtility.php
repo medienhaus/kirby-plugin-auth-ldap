@@ -46,8 +46,7 @@ class LdapUtility
         if (option('medienhaus.kirby-plugin-auth-ldap.base_dn')) {
             $ldap_base_dn = option('medienhaus.kirby-plugin-auth-ldap.base_dn');
         } else {
-            //TODO use die() or throw Exception?
-            die("LDAP base_dn not set in config");
+            throw new Exception("LDAP base_dn not set in config");
         }
 
         $ldap = $this->getLdapConnection();
@@ -215,6 +214,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapUid($mail): string
     {
         if (empty($mail)) {
@@ -223,6 +223,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["uid"];
     }
+     */
 
     /**
      * Retrieve LDAP attribute `mail` of user by provided mail address
@@ -231,6 +232,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapMail($mail): string
     {
         if (empty($mail)) {
@@ -239,6 +241,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["mail"];
     }
+     */
 
     /**
      * Retrieve LDAP attribute `name` of user by provided mail address
@@ -247,6 +250,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapName($mail): string
     {
         if (empty($mail)) {
@@ -255,6 +259,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["name"];
     }
+     */
 
     /**
      * checks if the user credentials are correct.

@@ -24,7 +24,7 @@ class LdapUser extends User
         }
 
         // `UserRules` enforces a minimum length of 8 characters,
-        // so everything below that is a typo
+        // so everything below that is marked/shown as invalid
         if (Str::length($password) < 8) {
             throw new InvalidArgumentException(
                 key: 'user.password.invalid',
@@ -72,36 +72,6 @@ class LdapUser extends User
     }
 
     /**
-     * Retrieve LDAP attribute `uid` of user by provided mail address
-     *
-     * @return string
-     */
-    public function getLdapUid(): string
-    {
-        return LdapUtility::getUtility()->getLdapUid($this->email());
-    }
-
-    /**
-     * Retrieve LDAP attribute `mail` of user by provided mail address
-     *
-     * @return string
-     */
-    public function getLdapMail(): string
-    {
-        return LdapUtility::getUtility()->getLdapMail($this->email());
-    }
-
-    /**
-     * Retrieve LDAP attribute `name` of user by provided mail address
-     *
-     * @return string
-     */
-    public function getLdapName(): string
-    {
-        return LdapUtility::getUtility()->getLdapName($this->email());
-    }
-
-    /**
      * Conditionally create new user account if it does not already exist in Kirby
      *
      * @param string $email
@@ -136,9 +106,15 @@ class LdapUser extends User
         $userProps = [
             'id' => 'LDAP_' . $ldapUser['uid'],
             'email' => $ldapUser['mail'],
-            'name' => $ldapUser['name'],
+            // if the user already exists, and has a custom name set, then prevent
+            // overwriting the custom name with the canonical LDAP name attribute
+            'name' => $user != null ? $user->name()->toString() : $ldapUser['name'],
             'language' => 'en',
             'role' => 'LdapUser',
+            'ldap_dn' => $ldapUser['dn'],
+            'ldap_uid' => $ldapUser['uid'],
+            'ldap_mail' => $ldapUser['mail'],
+            'ldap_name' => $ldapUser['name'],
         ];
 
         // create new user with user attributes
