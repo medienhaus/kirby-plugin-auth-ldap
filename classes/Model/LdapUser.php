@@ -145,6 +145,10 @@ class LdapUser extends User
             'name' => $ldapUser['name'],
             'language' => 'en',
             'role' => 'LdapUser',
+            'ldap_dn' => $ldapUser['dn'],
+            'ldap_uid' => $ldapUser['uid'],
+            'ldap_mail' => $ldapUser['mail'],
+            'ldap_name' => $ldapUser['name'],
         ];
 
         // create new user with user attributes
