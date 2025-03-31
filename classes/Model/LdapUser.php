@@ -24,7 +24,7 @@ class LdapUser extends User
         }
 
         // `UserRules` enforces a minimum length of 8 characters,
-        // so everything below that is a typo
+        // so everything below that is marked/shown as invalid
         if (Str::length($password) < 8) {
             throw new InvalidArgumentException(
                 key: 'user.password.invalid',
