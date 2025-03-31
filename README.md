@@ -24,17 +24,35 @@ Configure LDAP server access via: `<kirby_document_root>/site/config/config.php`
 ```php
 <?php
     return [
-        ...
-        'datamints.ldap.host'     => "ldap://subdomain.domain.tld:port", // host of ldap-server
-        'datamints.ldap.bind_dn'  => "cn=common-name,dc=domain,dc=tld", // login username for global access
-        'datamints.ldap.bind_pw'  => "[password that fits to ldap_bind_dn", // login password for global access
-        'datamints.ldap.base_dn'  => "ou=organizational-unit,dc=domain,dc=tld", // path to search for users
-        'datamints.ldap.is_admin' => false, // optional; is every LDAP user an admin? (default: true)
+        ...,
+        'medienhaus.kirby-plugin-auth-ldap' => [
+            'host' => 'ldap://ldap.example.org:389',
+            'bind_dn' => 'cn=admin,dc=example,dc=org',
+            'bind_pw' => '*****************************',
+            'base_dn' => 'ou=people,dc=example,dc=org',
+            'attributes' => [
+                'uid' => 'uid',
+                'mail' => 'mail',
+                'name' => 'cn',
+            ],
+            'start_tls' => true, // enable TLS-secured connection (very much recommended in production)
+            /* https://www.php.net/manual/en/function.ldap-set-option.php */
+            /*
+            'tls_options' => [
+                'validate' => LDAP_OPT_X_TLS_NEVER,
+                'version' => LDAP_OPT_X_TLS_PROTOCOL_TLS1_2,
+                'ciphers' => 'ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:DHE+CHACHA20:ECDH+AESGCM:DH+AESGCM:ECDH+AES:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!eNULL:!MD5:!DSS',
+            ],
+            */
+            'debug' => false, // enable debugging for LDAP connection
+            'is_admin' => false, // applies the Kirby `admin` role to LDAP users on login (default: false)
+        ],
     ];
 ?>
 ```
 
-If you want to change the default permissions to be more granular than admin `true`/`false`, copy [`blueprints/users/LdapUser.yml`](/blueprints/users/LdapUser.yml) to `<kirby_document_root>/site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
+> [!IMPORTANT]
+> If you want to set custom default permissions for all LDAP users, copy [`blueprints/users/LdapUser.yml`](/blueprints/users/LdapUser.yml) to `<kirby_document_root>/site/blueprints/users/LdapUser.yml` and modify the file according to your needs as described in the [Kirby permission docs](https://getkirby.com/docs/guide/users/permissions).
 
 ## License
 

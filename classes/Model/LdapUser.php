@@ -1,99 +1,129 @@
 <?php
 
 use Kirby\Cms\User;
+use Kirby\Exception\InvalidArgumentException;
+use Kirby\Exception\NotFoundException;
+use Kirby\Toolkit\Str;
 
 class LdapUser extends User
 {
     /**
-     * Compares the given password with ldap
-     *
-     * @param string $password
-     * @return bool
+     * Tries to authenticate against LDAP server with the given password
      *
      * @throws \Kirby\Exception\NotFoundException If the user has no password
-     * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid
-     * @throws \Kirby\Exception\InvalidArgumentException If the entered password does not match the user password
+     * @throws \Kirby\Exception\InvalidArgumentException If the entered password is not valid or does not match the user password
      */
-    public function validatePassword(string $password = null): bool
-    {
+    public function validatePassword(
+        #[SensitiveParameter]
+        string|null $password = null,
+    ): bool {
+        if (empty($password)) {
+            throw new NotFoundException(
+                key: 'user.password.undefined',
+            );
+        }
+
+        // `UserRules` enforces a minimum length of 8 characters,
+        // so everything below that is marked/shown as invalid
         if (Str::length($password) < 8) {
-            http_response_code(403);
-            throw new InvalidArgumentException(['key' => 'user.password.invalid']);
+            throw new InvalidArgumentException(
+                key: 'user.password.invalid',
+            );
+        }
+
+        // too long passwords can cause DoS attacks
+        if (Str::length($password) > 1000) {
+            throw new InvalidArgumentException(
+                key: 'user.password.excessive',
+            );
         }
 
         if ((LdapUtility::getUtility()->validatePassword($this->email(), $password)) !== true) {
-            http_response_code(403);
-            throw new InvalidArgumentException(['key' => 'user.password.notSame']);
+            throw new InvalidArgumentException(
+                key: 'user.password.wrong',
+                httpCode: 401,
+            );
         }
 
         return true;
     }
 
     /**
-     * Checks if this user has the admin role
+     * Conditionally applies the Kirby `admin` role to LDAP users on login
+     *
+     * NOTE: this is conditionally applied on _every_ login, hence this setting could be
+     * changed at any time and would apply the updated value to each subsequent login !!
      *
      * @return bool
      */
     public function isAdmin(): bool
     {
-        return option('datamints.ldap.is_admin');
+        return option('medienhaus.kirby-plugin-auth-ldap.is_admin');
     }
 
     /**
-     * 
-     * 
+     * Retrieve LDAP attribute `dn` of user by provided mail address
+     *
      * @return string
      */
-    public function getLdapDn() {
+    public function getLdapDn(): string
+    {
         return LdapUtility::getUtility()->getLdapDn($this->email());
     }
 
     /**
-     * creates a LdapUser in Kirby, if it does not exist in Kirby but in Ldap
-     * if (!kirbyUser && ldapUser) new kirbyUser
+     * Conditionally create new user account if it does not already exist in Kirby
      *
      * @param string $email
      *
      * @return \Kirby\Cms\User
      */
-    public static function findOrCreateIfLdap($email) {
-        //if email not set, return null
+    public static function findOrCreateIfLdap($email): null|\Kirby\Cms\User
+    {
+        // if email not set, return null
         if (empty($email)) {
             return null;
         }
 
-        // if user already exists, return that user
+        // find user by provided email address
         $user = kirby()->users()->findByKey($email);
-        if($user != null) {
+        if ($user != null) {
             return $user;
         }
 
-        //if user does not exist in Kirby, search in Ldap
+        // find user in LDAP user directory by provided email address
         $ldapUser = LdapUtility::getUtility()->getLdapUser($email);
 
-        //if user does not exist in Ldap too, return null
-        if(!$ldapUser) {
+        // if the user does not exist in the LDAP user directory, return null
+        if (!$ldapUser) {
             return null;
         }
 
-        //if user exists in Ldap
-        //create that user in Kirby
+        // set user attributes (provided by LDAP server)
         $userProps = [
-            'id'        => "LDAP_".$ldapUser['lastname']."_".substr($ldapUser['uid'], 0, 5),
-            'name'      => $ldapUser['name'],
-            'email'     => $ldapUser['mail'],
-            'language'  => 'en',
-            'role'      => 'LdapUser'
+            'id' => 'LDAP_' . $ldapUser['uid'],
+            'email' => $ldapUser['mail'],
+            // if the user already exists, and has a custom name set, then prevent
+            // overwriting the custom name with the canonical LDAP name attribute
+            'name' => $user != null ? $user->name()->toString() : $ldapUser['name'],
+            'language' => 'en',
+            'role' => 'LdapUser',
+            'ldap_dn' => $ldapUser['dn'],
+            'ldap_uid' => $ldapUser['uid'],
+            'ldap_mail' => $ldapUser['mail'],
+            'ldap_name' => $ldapUser['name'],
         ];
+
+        // create new user with user attributes
         $user = new LdapUser($userProps);
 
-        //save the user
+        // save the new user account to Kirby
         $user->writeCredentials($userProps);
 
         // add the user to users collection
         $user->kirby()->users()->add($user);
 
-        //return it
+        // return the user account
         return $user;
     }
 }

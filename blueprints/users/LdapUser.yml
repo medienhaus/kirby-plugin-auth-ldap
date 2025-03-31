@@ -1,8 +1,13 @@
+---
 title: LdapUser
-description: The account logs in with Ldap and is an admin.
+description: Account is externally managed via LDAP server
 
 sections:
-	ldapID:
-		type: info
-		label: ldapDN
-		text: "{{ user.getLdapDn }}"
+  ldap_mail:
+    type: info
+    label: Mail
+    text: "{{ user.email }}"
+  ldap_name:
+    type: info
+    label: Name
+    text: "{{ user.name }}"
