@@ -46,8 +46,7 @@ class LdapUtility
         if (option('medienhaus.kirby-plugin-auth-ldap.base_dn')) {
             $ldap_base_dn = option('medienhaus.kirby-plugin-auth-ldap.base_dn');
         } else {
-            //TODO use die() or throw Exception?
-            die("LDAP base_dn not set in config");
+            throw new Exception("LDAP base_dn not set in config");
         }
 
         $ldap = $this->getLdapConnection();
