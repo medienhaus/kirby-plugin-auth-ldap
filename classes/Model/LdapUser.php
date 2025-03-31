@@ -106,10 +106,9 @@ class LdapUser extends User
         $userProps = [
             'id' => 'LDAP_' . $ldapUser['uid'],
             'email' => $ldapUser['mail'],
-            'name' => $ldapUser['name'],
-            'name' => $name != null && $name || $ldapUser['name'],
-            // 'name' => $user != null && $user->name() || $ldapUser['name'],
-            // 'name' => $user != null ? $user->name() : $ldapUser['name'],
+            // if the user already exists, and has a custom name set, then prevent
+            // overwriting the custom name with the canonical LDAP name attribute
+            'name' => $user != null ? $user->name()->toString() : $ldapUser['name'],
             'language' => 'en',
             'role' => 'LdapUser',
             'ldap_dn' => $ldapUser['dn'],
