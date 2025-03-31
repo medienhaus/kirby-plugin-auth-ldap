@@ -76,30 +76,36 @@ class LdapUser extends User
      *
      * @return string
      */
+    /*
     public function getLdapUid(): string
     {
         return LdapUtility::getUtility()->getLdapUid($this->email());
     }
+     */
 
     /**
      * Retrieve LDAP attribute `mail` of user by provided mail address
      *
      * @return string
      */
+    /*
     public function getLdapMail(): string
     {
         return LdapUtility::getUtility()->getLdapMail($this->email());
     }
+     */
 
     /**
      * Retrieve LDAP attribute `name` of user by provided mail address
      *
      * @return string
      */
+    /*
     public function getLdapName(): string
     {
         return LdapUtility::getUtility()->getLdapName($this->email());
     }
+     */
 
     /**
      * Conditionally create new user account if it does not already exist in Kirby
