@@ -215,6 +215,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapUid($mail): string
     {
         if (empty($mail)) {
@@ -223,6 +224,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["uid"];
     }
+     */
 
     /**
      * Retrieve LDAP attribute `mail` of user by provided mail address
@@ -231,6 +233,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapMail($mail): string
     {
         if (empty($mail)) {
@@ -239,6 +242,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["mail"];
     }
+     */
 
     /**
      * Retrieve LDAP attribute `name` of user by provided mail address
@@ -247,6 +251,7 @@ class LdapUtility
      * @return string
      * @throws Exception
      */
+    /*
     public function getLdapName($mail): string
     {
         if (empty($mail)) {
@@ -255,6 +260,7 @@ class LdapUtility
         $user = $this->getLdapUser($mail);
         return $user["name"];
     }
+     */
 
     /**
      * checks if the user credentials are correct.
