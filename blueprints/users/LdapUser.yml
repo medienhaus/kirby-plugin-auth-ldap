@@ -3,19 +3,19 @@ title: LdapUser
 description: Account is externally managed via LDAP server
 
 sections:
-  ldap_dn:
-    type: info
-    label: DN
-    text: "{{ user.getLdapDn }}"
-  ldap_uid:
-    type: info
-    label: UID
-    text: "{{ user.getLdapUid }}"
+  #ldap_dn:
+  #  type: info
+  #  label: DN
+  #  text: "{{ user.dn }}"
+  #ldap_uid:
+  #  type: info
+  #  label: UID
+  #  text: "{{ user.uid }}"
   ldap_mail:
     type: info
     label: Mail
-    text: "{{ user.getLdapMail }}"
+    text: "{{ user.email }}"
   ldap_name:
     type: info
     label: Name
-    text: "{{ user.getLdapName }}"
+    text: "{{ user.name }}"
